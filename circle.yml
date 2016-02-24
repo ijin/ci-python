@@ -1,0 +1,33 @@
+machine:
+  python:
+    version: 2.7.10
+  environment:
+    REPOSITORY_NAME: one-garden
+    MO_TRIGGER: MO
+    QA_TRIGGER: QA
+    DYNAMO_INSTALL_DIR: /tmp
+
+dependencies:
+  pre:
+    - python -c 'import sys; print sys.maxunicode'
+test:
+  override:
+    - echo 'test'
+
+deployment:
+  master:
+    branch: mster
+    commands:
+      - |
+        deactivate
+        gitt clone https://github.com/s1341/pyenv-alias.git ~/.pyenv/plugins/python-alias
+        VERSION_ALIAS="2.7.10_ucs4" PYTHON_CONFIGURE_OPTS="--enable-unicode=ucs4" pyenv install 2.7.10
+        pyenv shell 2.7.10_ucs4
+        pyenv rehash
+        pyenv version
+        venv
+        python -c 'import sys; print sys.maxunicode'
+        virtualenv ~/virtualenvs/venv-2.7.10_ucs4
+        . ~/virtualenvs/venv-2.7.10_ucs4/bin/activate
+        python -V
+        python -c 'import sys; print sys.maxunicode'
