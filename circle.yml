@@ -16,7 +16,7 @@ test:
 
 deployment:
   master:
-    branch: mster
+    branch: master
     commands:
       - |
         deactivate
